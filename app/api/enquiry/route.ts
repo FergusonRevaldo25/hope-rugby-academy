@@ -12,19 +12,12 @@ export async function POST(req: Request) {
   if (text.length > 10_000) return Response.json({ ok: false, errors: { form: "Request too large." } }, { status: 413 });
 
   let body: unknown;
-  try {
-    body = JSON.parse(text);
-  } catch {
-    return Response.json({ ok: false, errors: { form: "Invalid request." } }, { status: 400 });
-  }
+  try { body = JSON.parse(text); }
+  catch { return Response.json({ ok: false, errors: { form: "Invalid request." } }, { status: 400 }); }
 
-  // Bot traps: a hidden "website" field humans never fill, and a form that
-  // was "submitted" faster than a person could type. Pretend success.
   const b = body as Record<string, unknown>;
   const tooFast = typeof b.startedAt === "number" && Date.now() - b.startedAt < 2500;
-  if ((typeof b.website === "string" && b.website.length > 0) || tooFast) {
-    return Response.json({ ok: true });
-  }
+  if ((typeof b.website === "string" && b.website.length > 0) || tooFast) return Response.json({ ok: true });
 
   const result = validateEnquiry(body);
   if (!result.ok) return Response.json({ ok: false, errors: result.errors }, { status: 400 });
@@ -34,9 +27,6 @@ export async function POST(req: Request) {
     return Response.json({ ok: true });
   } catch (err) {
     console.error("[enquiry] failed", err);
-    return Response.json(
-      { ok: false, errors: { form: "We couldn't send your enquiry just now." } },
-      { status: 500 },
-    );
+    return Response.json({ ok: false, errors: { form: "We couldn't save your enquiry just now." } }, { status: 500 });
   }
 }

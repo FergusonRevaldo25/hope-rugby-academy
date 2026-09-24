@@ -1,0 +1,1 @@
+import AdminShell from "@/lib/admin/AdminShell"; import CollectionPage from "@/app/admin/_components/CollectionPage"; export default function Page(){return <AdminShell><CollectionPage collection="news"/></AdminShell>}

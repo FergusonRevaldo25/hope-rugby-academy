@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import {
   motion,
   AnimatePresence,
@@ -47,9 +48,7 @@ function IconNavButton({
   return (
     <Link href={href} aria-label={label} className={`${base} ${styles}`}>
       <Icon size={16} />
-      <span
-        className="pointer-events-none absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/10 bg-navy-950 px-3 py-1 text-[11px] font-medium text-bone opacity-0 shadow-card transition-all duration-300 ease-silk group-hover:-bottom-10 group-hover:opacity-100"
-      >
+      <span className="pointer-events-none absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/10 bg-navy-950 px-3 py-1 text-[11px] font-medium text-bone opacity-0 shadow-card transition-all duration-300 ease-silk group-hover:-bottom-10 group-hover:opacity-100">
         {label}
       </span>
     </Link>
@@ -76,6 +75,8 @@ export default function Navbar() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -140,7 +141,12 @@ export default function Navbar() {
               Join
             </Link>
             <IconNavButton href="/contact" label="Contact" icon={Phone} />
-            <IconNavButton href="/donate" label="Donate" icon={HandCoins} variant="solid" />
+            <IconNavButton
+              href="/donate"
+              label="Donate"
+              icon={HandCoins}
+              variant="solid"
+            />
           </div>
 
           <button
