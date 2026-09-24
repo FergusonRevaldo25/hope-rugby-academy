@@ -11,12 +11,12 @@ datasource db {
 }
 
 model Coach {
-  id        String  @id @default(cuid())
-  order     Int     @default(0)
-  published Boolean @default(true)
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  published Boolean  @default(true)
   name      String
   role      String
-  bio       String  @db.Text
+  bio       String   @db.Text
   focus     String
   photoSrc  String?
   photoAlt  String?
@@ -25,42 +25,42 @@ model Coach {
 }
 
 model AgeGroup {
-  id           String  @id @default(cuid())
-  order        Int     @default(0)
-  published    Boolean @default(true)
+  id           String   @id @default(cuid())
+  order        Int      @default(0)
+  published    Boolean  @default(true)
   ageRange     String
   name         String
   focus        String
   photoSrc     String?
   photoAlt     String?
-  photoConsent Boolean @default(false)
+  photoConsent Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
 
 model Award {
-  id           String  @id @default(cuid())
-  order        Int     @default(0)
-  published    Boolean @default(true)
+  id           String   @id @default(cuid())
+  order        Int      @default(0)
+  published    Boolean  @default(true)
   icon         String
   title        String
-  description  String  @db.Text
+  description  String   @db.Text
   recipient    String?
   season       String?
   photoSrc     String?
   photoAlt     String?
-  photoConsent Boolean @default(false)
+  photoConsent Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
 
 model Sponsor {
-  id          String  @id @default(cuid())
-  order       Int     @default(0)
-  published   Boolean @default(true)
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  published   Boolean  @default(true)
   name        String
   tier        String
-  description String  @db.Text
+  description String   @db.Text
   logoSrc     String?
   logoAlt     String?
   website     String?
@@ -70,14 +70,14 @@ model Sponsor {
 }
 
 model Fund {
-  id          String  @id @default(cuid())
-  order       Int     @default(0)
-  published   Boolean @default(true)
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  published   Boolean  @default(true)
   name        String
   icon        String
   goal        Float
-  raised      Float   @default(0)
-  description String  @db.Text
+  raised      Float    @default(0)
+  description String   @db.Text
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -98,12 +98,12 @@ model News {
 }
 
 model SessionStep {
-  id          String  @id @default(cuid())
-  order       Int     @default(0)
-  published   Boolean @default(true)
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  published   Boolean  @default(true)
   time        String
   title       String
-  description String  @db.Text
+  description String   @db.Text
   photoSrc    String?
   photoAlt    String?
   createdAt   DateTime @default(now())
@@ -144,57 +144,57 @@ model Event {
 }
 
 model Faq {
-  id        String  @id @default(cuid())
-  order     Int     @default(0)
-  published Boolean @default(true)
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  published Boolean  @default(true)
   question  String
-  answer    String  @db.Text
+  answer    String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model BringItem {
-  id          String  @id @default(cuid())
-  order       Int     @default(0)
-  published   Boolean @default(true)
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  published   Boolean  @default(true)
   icon        String
   title       String
-  description String  @db.Text
+  description String   @db.Text
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
 model GalleryItem {
-  id           String  @id @default(cuid())
-  order        Int     @default(0)
-  published    Boolean @default(true)
+  id           String   @id @default(cuid())
+  order        Int      @default(0)
+  published    Boolean  @default(true)
   photoSrc     String
   photoAlt     String?
   caption      String?
-  photoConsent Boolean @default(false)
+  photoConsent Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
 
 model Heading {
-  id          String  @id
+  id          String   @id
   eyebrow     String?
   titleBefore String?
   highlight   String?
   titleAfter  String?
-  intro       String? @db.Text
+  intro       String?  @db.Text
   updatedAt   DateTime @updatedAt
 }
 
 model Enquiry {
-  id         String   @id @default(cuid())
-  childName  String
-  ageGroup   String?
-  parentName String
+  id          String   @id @default(cuid())
+  childName   String
+  ageGroup    String?
+  parentName  String
   parentPhone String?
-  email      String?
-  message    String?  @db.Text
-  status     String   @default("new")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  email       String?
+  message     String?  @db.Text
+  status      String   @default("new")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
