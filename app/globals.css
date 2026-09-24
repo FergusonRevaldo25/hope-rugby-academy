@@ -1,26 +1,219 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+html {
+  scroll-behavior: smooth;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #060d1c;
+  color: #f6f5f1;
+  font-feature-settings: "ss01" 1, "cv11" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #d3122a;
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid #ff5468;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #060d1c; }
+::-webkit-scrollbar-thumb {
+  background: #1b3868;
+  border-radius: 999px;
+  border: 2px solid #060d1c;
+}
+::-webkit-scrollbar-thumb:hover { background: #25497f; }
+
+.text-balance { text-wrap: balance; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Theme tokens (used across components)                               */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-ink: #040915;
+  --color-navy-950: #060d1c;
+  --color-navy-900: #0b1630;
+  --color-navy-800: #12214a;
+  --color-navy-700: #1b3868;
+  --color-crimson: #d3122a;
+  --color-crimson-bright: #f2233e;
+  --color-red-soft: #ff5468;
+  --color-blue-accent: #3e7bfa;
+  --color-bone: #ffffff;
+  --color-mist: #cdd5e6;
+
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --tracking-tightest: -0.04em;
+  --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --shadow-card: 0 10px 40px -12px rgba(0, 0, 0, 0.6);
+  --shadow-crimson: 0 10px 40px -8px rgba(242, 35, 62, 0.65);
+  --shadow-glow: 0 0 60px -10px rgba(242, 35, 62, 0.55);
+}
+
+@utility bg-hope-gradient {
+  background-image: linear-gradient(160deg, rgba(6, 13, 28, 0.35) 0%, rgba(30, 8, 30, 0.25) 100%);
+}
+@utility bg-crimson-gradient {
+  background-image: linear-gradient(90deg, #a30d20, #f2233e 50%, #a30d20);
+}
+@utility text-glow-red {
+  text-shadow: 0 0 22px rgba(242, 35, 62, 0.55), 0 0 60px rgba(242, 35, 62, 0.3);
+}
+
+/* ------------------------------------------------------------------ */
+/* Animated site background (BackgroundFX)                             */
+/* Performance notes: only transform/opacity are animated (compositor  */
+/* only), no blur filters, no animated box-shadow/background-position. */
+/* ------------------------------------------------------------------ */
+.fx-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+  background:
+    radial-gradient(90% 70% at 15% 0%, #14205a 0%, transparent 60%),
+    radial-gradient(80% 60% at 100% 100%, #2a0a2e 0%, transparent 60%),
+    linear-gradient(180deg, #060d1c 0%, #08102a 100%);
+}
+
+/* glow orbs are soft radial gradients (no expensive blur filter) */
+.fx-orb {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform, opacity;
+}
+@keyframes fx-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(12vw, 10vh, 0) scale(1.2); }
+}
+@keyframes fx-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); }
+  50% { transform: translate3d(-14vw, -12vh, 0) scale(0.92); }
+}
+
+/* speed streaks */
+.fx-streaks {
+  position: absolute;
+  inset: -20% -10%;
+  transform: rotate(-16deg);
+}
+.fx-streak {
+  position: absolute;
+  left: 0;
+  height: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 70, 90, 0.9), transparent);
+  transform: translate3d(-60vw, 0, 0);
+  animation: fx-streak linear infinite;
+  will-change: transform;
+}
+@keyframes fx-streak {
+  from { transform: translate3d(-60vw, 0, 0); }
+  to { transform: translate3d(160vw, 0, 0); }
+}
+
+/* halftone dots: oversized static pattern, moved with transform */
+.fx-dots {
+  position: absolute;
+  width: 46vmax;
+  height: 46vmax;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  opacity: 0.22;
+}
+.fx-dots::before {
+  content: "";
+  position: absolute;
+  inset: -220px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.55) 1.4px, transparent 1.6px);
+  background-size: 22px 22px;
+  animation: fx-dots 24s linear infinite;
+  will-change: transform;
+}
+@keyframes fx-dots {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(110px, 66px, 0); }
+}
+
+/* neon outlines: glow is a second, wider low-opacity stroke (no filter) */
+.fx-shape {
+  position: absolute;
+  color: #ff3b52;
+  opacity: 0.55;
+  will-change: transform;
+}
+@keyframes fx-float-rot {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -28px, 0) rotate(8deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+@keyframes fx-spin { to { transform: rotate(360deg); } }
+
+.fx-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 40%, transparent 35%, rgba(3, 6, 16, 0.75) 100%);
+}
+
+/* button glow: pulse a pseudo-element's opacity instead of box-shadow */
+.animate-glow-pulse { position: relative; }
+.animate-glow-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 10px 55px -4px rgba(242, 35, 62, 0.95);
+  opacity: 0;
+  pointer-events: none;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+/* lighter background on phones / slower devices */
+@media (max-width: 767px) {
+  .fx-dots, .fx-shape-lg { display: none; }
+  .fx-streak:nth-child(even) { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-orb, .fx-streak, .fx-dots::before, .fx-shape, .animate-glow-pulse::after { animation: none !important; }
+  .fx-streak { display: none; }
 }

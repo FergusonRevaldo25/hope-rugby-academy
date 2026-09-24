@@ -1,0 +1,1228 @@
+
+===== package.json =====
+{
+  "name": "hope-rugby-academy",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "framer-motion": "^13.4.2",
+    "lucide-react": "^1.47.0",
+    "next": "16.3.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+
+
+===== tailwind.config.ts =====
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./app/**/*.{ts,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        ink: "#060D1C",
+        navy: {
+          950: "#0A1730",
+          900: "#0E1F3F",
+          800: "#132952",
+          700: "#1B3868",
+          600: "#25497F",
+        },
+        blue: {
+          accent: "#3E7BFA",
+          soft: "#7FA4E8",
+        },
+        crimson: {
+          DEFAULT: "#D3122A",
+          deep: "#9C0D20",
+          bright: "#F2233E",
+        },
+        bone: "#F6F5F1",
+        mist: "#AEB9CE",
+      },
+      fontFamily: {
+        display: ["var(--font-manrope)", "sans-serif"],
+        body: ["var(--font-inter)", "sans-serif"],
+      },
+      letterSpacing: {
+        tightest: "-0.045em",
+      },
+      backgroundImage: {
+        "hope-gradient": "linear-gradient(135deg, #0A1730 0%, #132952 45%, #1B3868 75%, #3E7BFA 130%)",
+        "crimson-gradient": "linear-gradient(120deg, #F2233E 0%, #9C0D20 100%)",
+        "sheen": "linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.12) 35%, transparent 50%)",
+      },
+      boxShadow: {
+        glow: "0 0 60px -12px rgba(62, 123, 250, 0.45)",
+        crimson: "0 12px 30px -10px rgba(211, 18, 42, 0.55)",
+        card: "0 1px 0 rgba(255,255,255,0.06) inset, 0 20px 40px -20px rgba(0,0,0,0.6)",
+      },
+      transitionTimingFunction: {
+        silk: "cubic-bezier(0.16, 1, 0.3, 1)",
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
+
+
+===== app\globals.css =====
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: #060d1c;
+  color: #f6f5f1;
+  font-feature-settings: "ss01" 1, "cv11" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #d3122a;
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid #3e7bfa;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #060d1c; }
+::-webkit-scrollbar-thumb {
+  background: #1b3868;
+  border-radius: 999px;
+  border: 2px solid #060d1c;
+}
+::-webkit-scrollbar-thumb:hover { background: #25497f; }
+
+.text-balance { text-wrap: balance; }
+
+===== app\layout.tsx =====
+import type { Metadata } from "next";
+import { Manrope, Inter } from "next/font/google";
+import "./globals.css";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  weight: ["500", "600", "700", "800"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600"],
+});
+
+export const metadata: Metadata = {
+  title: "Hope Rugby Academy � Building Champions of Tomorrow",
+  description:
+    "Hope Rugby Academy develops young players through elite coaching, structured age-group pathways, and a culture built on discipline, brotherhood, and heart. Join the academy.",
+  icons: {
+    icon: "/logo.png",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" className={`${manrope.variable} ${inter.variable}`}>
+      <body className="font-body antialiased">{children}</body>
+    </html>
+  );
+}
+
+
+===== app\page.tsx =====
+import Navbar from "./components/Layout/Navbar";
+import Hero from "./components/Home/Hero";
+import Stats from "./components/Home/Stats";
+import Philosophy from "./components/About/Philosophy";
+import Teams from "./components/Teams/Teams";
+import Coaches from "./components/Coaches/Coaches";
+import Gallery from "./components/Home/Gallery";
+import News from "./components/News/News";
+import Sponsors from "./components/Sponsors/Sponsors";
+import Membership from "./components/Membership/Membership";
+import Contact from "./components/Contact/Contact";
+import Footer from "./components/Layout/Footer";
+
+export default function Home() {
+  return (
+    <main>
+      <Navbar />
+      <Hero />
+      <Stats />
+      <Philosophy />
+      <Teams />
+      <Coaches />
+      <Gallery />
+      <News />
+      <Sponsors />
+      <Membership />
+      <Contact />
+      <Footer />
+    </main>
+  );
+}
+
+===== lib\data.ts =====
+export type Program = {
+  ageRange: string;
+  name: string;
+  focus: string;
+  schedule: string;
+};
+
+export const PROGRAMS: Program[] = [
+  {
+    ageRange: "U6 – U8",
+    name: "Mini Rugby",
+    focus: "Ball skills, coordination, and a love for the game through play-based coaching.",
+    schedule: "Saturdays, 9:00–10:00am",
+  },
+  {
+    ageRange: "U9 – U12",
+    name: "Junior Academy",
+    focus: "Contact fundamentals, positional awareness, and introductory game strategy.",
+    schedule: "Tue & Thu, 4:30–6:00pm",
+  },
+  {
+    ageRange: "U13 – U16",
+    name: "Youth Performance",
+    focus: "Structured strength and conditioning alongside advanced tactical training.",
+    schedule: "Mon, Wed, Fri, 5:00–7:00pm",
+  },
+  {
+    ageRange: "U17 – U19",
+    name: "Elite Pathway",
+    focus: "Representative-level coaching, college scouting support, and leadership development.",
+    schedule: "Daily, 5:30–7:30pm",
+  },
+];
+
+export type Coach = {
+  name: string;
+  role: string;
+  bio: string;
+  credentials: string[];
+};
+
+export const COACHES: Coach[] = [
+  {
+    name: "Marcus Bailey",
+    role: "Head of Academy",
+    bio: "Former professional flanker turned coach, Marcus built Hope Rugby Academy on the belief that discipline off the field wins games on it.",
+    credentials: ["World Rugby Level 3", "12 years coaching"],
+  },
+  {
+    name: "Elena Vosloo",
+    role: "Youth Performance Lead",
+    bio: "Elena specializes in strength and conditioning for teenage athletes, bridging sports science with on-field tactics.",
+    credentials: ["Strength & Conditioning Cert.", "8 years coaching"],
+  },
+  {
+    name: "Tomás Reyes",
+    role: "Junior Academy Coach",
+    bio: "Tomás focuses on making contact rugby safe and confidence-building for players just entering the sport.",
+    credentials: ["World Rugby Level 2", "6 years coaching"],
+  },
+  {
+    name: "Priya Naidoo",
+    role: "Mini Rugby Lead",
+    bio: "Priya designs the academy's earliest touchpoints with the game — play-based sessions that build coordination before contact.",
+    credentials: ["Youth Coaching Diploma", "5 years coaching"],
+  },
+];
+
+export type Testimonial = {
+  quote: string;
+  name: string;
+  relation: string;
+};
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    quote:
+      "My son went from sitting on the sidelines to captaining his age group in under two years. The coaches notice things I never would.",
+    name: "Dana Whitfield",
+    relation: "Parent, Junior Academy",
+  },
+  {
+    quote:
+      "Hope Rugby Academy is the reason I got looked at by college scouts. The Elite Pathway program is run like a professional environment.",
+    name: "Jayden Okafor",
+    relation: "Player, Elite Pathway",
+  },
+  {
+    quote:
+      "The structure here is unmatched — every session has a purpose, and you can see the whole pathway from U8 to U19 in how they coach.",
+    name: "Sarah Kessler",
+    relation: "Parent, Youth Performance",
+  },
+];
+
+export const SPONSORS: string[] = [
+  "Northside Sports Medicine",
+  "Ironclad Nutrition",
+  "Riverbend Realty",
+  "Apex Physio Group",
+  "Coastal Credit Union",
+];
+
+===== app\components\Layout\Navbar.tsx =====
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
+import { Menu, X } from "lucide-react";
+
+const LINKS = [
+  { label: "Programs", href: "#programs" },
+  { label: "Philosophy", href: "#philosophy" },
+  { label: "Coaches", href: "#coaches" },
+  { label: "Gallery", href: "#gallery" },
+  { label: "Stories", href: "#stories" },
+];
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (y) => {
+    setScrolled(y > 24);
+  });
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-50">
+      <motion.div
+        animate={{
+          backgroundColor: scrolled ? "rgba(6,13,28,0.72)" : "rgba(6,13,28,0)",
+          borderColor: scrolled
+            ? "rgba(255,255,255,0.08)"
+            : "rgba(255,255,255,0)",
+        }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="border-b backdrop-blur-xl supports-[backdrop-filter]:backdrop-blur-xl"
+      >
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-10">
+          <a href="#top" className="flex items-center gap-3">
+            <Image
+              src="/logo.png"
+              alt="Hope Rugby Academy"
+              width={40}
+              height={40}
+              className="h-9 w-9 object-contain lg:h-10 lg:w-10"
+              priority
+            />
+            <span className="font-display text-[15px] font-bold tracking-tight text-bone lg:text-[17px]">
+              Hope Rugby Academy
+            </span>
+          </a>
+
+          <div className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/5 px-1.5 py-1.5 lg:flex">
+            {LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="rounded-full px-4 py-1.5 text-[13px] font-medium text-mist transition-colors duration-300 ease-silk hover:bg-white/10 hover:text-bone"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="hidden items-center gap-3 lg:flex">
+            <a
+              href="#contact"
+              className="rounded-full px-4 py-2 text-[13px] font-medium text-mist transition-colors duration-300 hover:text-bone"
+            >
+              Contact
+            </a>
+
+            <a
+              href="#join"
+              className="group relative overflow-hidden rounded-full bg-crimson px-5 py-2.5 text-[13px] font-semibold text-white shadow-crimson transition-transform duration-300 ease-silk hover:scale-[1.03] active:scale-[0.98]"
+            >
+              <span className="relative z-10">Register Trial</span>
+              <span className="absolute inset-0 -translate-x-full bg-sheen transition-transform duration-700 ease-silk group-hover:translate-x-full" />
+            </a>
+          </div>
+
+          <button
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-bone lg:hidden"
+          >
+            {open ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </nav>
+      </motion.div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="border-b border-white/10 bg-ink/95 px-6 pb-8 pt-4 backdrop-blur-xl lg:hidden"
+          >
+            <div className="flex flex-col gap-1">
+              {LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="rounded-xl px-3 py-3 text-[15px] font-medium text-mist transition-colors hover:bg-white/5 hover:text-bone"
+                >
+                  {link.label}
+                </a>
+              ))}
+
+              <a
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="rounded-xl px-3 py-3 text-[15px] font-medium text-mist transition-colors hover:bg-white/5 hover:text-bone"
+              >
+                Contact
+              </a>
+
+              <a
+                href="#join"
+                onClick={() => setOpen(false)}
+                className="mt-2 rounded-full bg-crimson px-5 py-3 text-center text-[15px] font-semibold text-white shadow-crimson"
+              >
+                Register Trial
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
+
+
+===== app\components\Layout\Footer.tsx =====
+import Image from "next/image";
+
+function InstagramIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function FacebookIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+
+function YoutubeIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="2" y="5" width="20" height="14" rx="4" />
+      <path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export default function Footer() {
+  return (
+    <footer className="border-t border-white/8 bg-ink py-12">
+      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 sm:flex-row sm:items-start sm:justify-between lg:px-10">
+        <div className="flex items-center gap-3">
+          <Image src="/logo.png" alt="Hope Rugby Academy" width={36} height={36} className="h-9 w-9 object-contain" />
+          <div>
+            <p className="font-display text-[15px] font-bold text-bone">Hope Rugby Academy</p>
+            <p className="text-[13px] text-mist">Building champions of tomorrow.</p>
+          </div>
+        </div>
+
+        <div className="flex gap-6 text-[13px] text-mist">
+          <a href="#programs" className="hover:text-bone">Programs</a>
+          <a href="#coaches" className="hover:text-bone">Coaches</a>
+          <a href="#stories" className="hover:text-bone">Stories</a>
+          <a href="#contact" className="hover:text-bone">Contact</a>
+        </div>
+
+        <div className="flex gap-4">
+          <a href="#" aria-label="Instagram" className="text-mist transition-colors hover:text-bone"><InstagramIcon /></a>
+          <a href="#" aria-label="Facebook" className="text-mist transition-colors hover:text-bone"><FacebookIcon /></a>
+          <a href="#" aria-label="YouTube" className="text-mist transition-colors hover:text-bone"><YoutubeIcon /></a>
+        </div>
+      </div>
+
+      <p className="mx-auto mt-10 max-w-7xl px-6 text-[12px] text-mist/50 lg:px-10">
+        © {new Date().getFullYear()} Hope Rugby Academy. All rights reserved.
+      </p>
+    </footer>
+  );
+}
+
+===== app\components\Home\Header.tsx =====
+
+===== app\components\Home\Hero.tsx =====
+"use client";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { ArrowRight, PlayCircle } from "lucide-react";
+
+const ease = [0.16, 1, 0.3, 1] as const;
+
+export default function Hero() {
+  return (
+    <section
+      id="top"
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-hope-gradient pt-28 pb-20"
+    >
+      <div className="pointer-events-none absolute -top-40 right-[-10%] h-[560px] w-[560px] rounded-full bg-blue-accent/25 blur-[140px]" />
+      <div className="pointer-events-none absolute bottom-[-20%] left-[-10%] h-[420px] w-[420px] rounded-full bg-crimson/20 blur-[130px]" />
+
+      <svg
+        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.14]"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+        fill="none"
+      >
+        <path
+          d="M-100 260 L520 150 L360 210 L700 140 L520 210 L820 170"
+          stroke="#F2233E"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M-100 340 L470 250 L330 300 L640 240 L470 300 L740 270"
+          stroke="#F2233E"
+          strokeWidth="5"
+          strokeLinecap="round"
+          opacity="0.7"
+        />
+      </svg>
+
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-16 px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:px-10">
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease }}
+            className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-crimson-bright" />
+            <span className="text-[13px] font-medium text-mist">
+              Trials open for the 2026 intake
+            </span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.08, ease }}
+            className="text-balance font-display text-[13vw] font-extrabold leading-[0.98] tracking-tightest text-bone sm:text-6xl lg:text-[5.2rem]"
+          >
+            Every champion
+            <br />
+            starts as a kid
+            <br />
+            who won&rsquo;t stop.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.18, ease }}
+            className="mt-7 max-w-md text-balance text-[17px] leading-relaxed text-mist lg:text-lg"
+          >
+            Hope Rugby Academy turns raw energy into real rugby &mdash; through
+            structured age-group coaching, elite technical training, and a
+            brotherhood built on the field and off it.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.28, ease }}
+            className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
+          >
+            <a
+              href="#join"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-crimson px-7 py-4 text-[15px] font-semibold text-white shadow-crimson transition-transform duration-300 ease-silk hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Book a Trial Session
+              <ArrowRight
+                size={17}
+                className="transition-transform duration-300 ease-silk group-hover:translate-x-1"
+              />
+            </a>
+
+            <a
+              href="#gallery"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-7 py-4 text-[15px] font-medium text-bone transition-colors duration-300 hover:bg-white/5"
+            >
+              <PlayCircle size={18} className="text-blue-soft" />
+              See the Academy
+            </a>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92, y: 24 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.15, ease }}
+          className="relative mx-auto flex w-full max-w-md items-center justify-center lg:max-w-none"
+        >
+          <div className="absolute h-[85%] w-[85%] rounded-full bg-blue-accent/20 blur-[90px]" />
+          <Image
+            src="/logo.png"
+            alt="Hope Rugby Academy crest"
+            width={640}
+            height={640}
+            priority
+            className="relative z-10 w-full max-w-sm drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)] lg:max-w-md"
+          />
+        </motion.div>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.9 }}
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex"
+      >
+        <span className="text-[11px] uppercase tracking-[0.2em] text-mist/70">
+          Scroll
+        </span>
+        <span className="h-9 w-[1px] bg-gradient-to-b from-mist/60 to-transparent" />
+      </motion.div>
+    </section>
+  );
+}
+
+
+===== app\components\Home\Stats.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { Trophy, Users, ShieldCheck, CalendarDays } from "lucide-react";
+
+const STATS = [
+  { icon: CalendarDays, value: "2016", label: "Academy founded" },
+  { icon: Users, value: "1,200+", label: "Athletes trained" },
+  { icon: ShieldCheck, value: "18", label: "Certified coaches" },
+  { icon: Trophy, value: "4", label: "Age-group pathways" },
+];
+
+export default function Stats() {
+  return (
+    <section className="relative border-y border-white/5 bg-navy-950 py-16">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 lg:grid-cols-4 lg:gap-6 lg:px-10">
+        {STATS.map((stat, i) => {
+          const Icon = stat.icon;
+          return (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-start gap-3 border-l border-white/10 pl-5"
+            >
+              <Icon size={20} className="text-blue-soft" />
+              <div className="font-display text-3xl font-extrabold tracking-tight text-bone lg:text-4xl">
+                {stat.value}
+              </div>
+              <div className="text-[13px] text-mist">{stat.label}</div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+===== app\components\Home\Gallery.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { Users, Trophy, Dumbbell, Flag, Sunrise, Handshake } from "lucide-react";
+
+const TILES = [
+  { icon: Flag, label: "Match day", span: "lg:col-span-2 lg:row-span-2", bg: "bg-hope-gradient" },
+  { icon: Dumbbell, label: "Conditioning", span: "", bg: "bg-navy-800" },
+  { icon: Users, label: "Team huddle", span: "", bg: "bg-crimson-gradient" },
+  { icon: Sunrise, label: "Morning sessions", span: "lg:col-span-2", bg: "bg-navy-700" },
+  { icon: Trophy, label: "Silverware", span: "", bg: "bg-navy-800" },
+  { icon: Handshake, label: "Off the field", span: "", bg: "bg-navy-700" },
+];
+
+export default function Gallery() {
+  return (
+    <section id="gallery" className="relative bg-ink py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-14 max-w-lg"
+        >
+          <h2 className="text-balance font-display text-4xl font-extrabold tracking-tight text-bone lg:text-5xl">
+            Inside the academy.
+          </h2>
+          <p className="mt-4 text-[16px] leading-relaxed text-mist">
+            A look at what a week with Hope Rugby Academy actually feels like.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:auto-rows-[180px]">
+          {TILES.map((tile, i) => {
+            const Icon = tile.icon;
+            return (
+              <motion.div
+                key={tile.label}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                className={`group relative flex min-h-[140px] flex-col justify-end overflow-hidden rounded-2xl border border-white/8 p-5 ${tile.span} ${tile.bg}`}
+              >
+                <Icon size={22} className="mb-3 text-white/80 transition-transform duration-500 ease-silk group-hover:scale-110" />
+                <span className="text-[14px] font-semibold text-white">{tile.label}</span>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+===== app\components\About\Philosophy.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { HeartHandshake, BrainCircuit, Dumbbell, GraduationCap } from "lucide-react";
+
+const PILLARS = [
+  { icon: HeartHandshake, title: "Brotherhood", copy: "Every player is accountable to the fifteen beside them, not just the scoreboard." },
+  { icon: Dumbbell, title: "Technical mastery", copy: "Fundamentals drilled until they become instinct, not just a checklist." },
+  { icon: BrainCircuit, title: "Game intelligence", copy: "We coach decision-making, not just plays — rugby rewards the player who reads first." },
+  { icon: GraduationCap, title: "Life beyond the pitch", copy: "Academic support and leadership habits that outlast any season." },
+];
+
+export default function Philosophy() {
+  return (
+    <section id="philosophy" className="relative bg-ink py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <div className="grid gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h2 className="text-balance font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-bone lg:text-5xl">
+              We&rsquo;re not building a roster.
+              <br />
+              We&rsquo;re building people.
+            </h2>
+            <p className="mt-6 max-w-md text-balance text-[16px] leading-relaxed text-mist">
+              Hope Rugby Academy exists because rugby teaches things a
+              classroom can&rsquo;t — resilience, trust, and the discipline to
+              show up for someone else. Every drill we run serves that first.
+            </p>
+          </motion.div>
+
+          <div className="grid gap-8 sm:grid-cols-2">
+            {PILLARS.map((pillar, i) => {
+              const Icon = pillar.icon;
+              return (
+                <motion.div
+                  key={pillar.title}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="rounded-2xl border border-white/8 bg-navy-900/60 p-6 shadow-card"
+                >
+                  <Icon size={22} className="text-crimson-bright" />
+                  <h3 className="mt-4 font-display text-lg font-bold text-bone">{pillar.title}</h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-mist">{pillar.copy}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+===== app\components\Coaches\Coaches.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { COACHES } from "@/lib/data";
+import CoachCard from "./CoachCard";
+
+export default function Coaches() {
+  return (
+    <section id="coaches" className="relative bg-navy-950 py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-14 max-w-lg"
+        >
+          <h2 className="text-balance font-display text-4xl font-extrabold tracking-tight text-bone lg:text-5xl">
+            Coached by people who&rsquo;ve played the game.
+          </h2>
+          <p className="mt-4 text-[16px] leading-relaxed text-mist">
+            Every coach on staff is certified, background-checked, and
+            personally trained in the academy&rsquo;s methodology.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {COACHES.map((coach, i) => (
+            <CoachCard key={coach.name} coach={coach} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+===== app\components\Coaches\CoachCard.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import type { Coach } from "@/lib/data";
+
+function initials(name: string) {
+  return name.split(" ").map((n) => n[0]).join("");
+}
+
+export default function CoachCard({ coach, index }: { coach: Coach; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      className="rounded-2xl border border-white/8 bg-navy-900/50 p-6 shadow-card"
+    >
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-crimson-gradient font-display text-[15px] font-bold text-white">
+        {initials(coach.name)}
+      </div>
+      <h3 className="mt-4 font-display text-lg font-bold text-bone">{coach.name}</h3>
+      <p className="text-[13px] font-medium text-blue-soft">{coach.role}</p>
+      <p className="mt-3 text-[14px] leading-relaxed text-mist">{coach.bio}</p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {coach.credentials.map((c) => (
+          <span
+            key={c}
+            className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-mist/80"
+          >
+            {c}
+          </span>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+===== app\components\Teams\Teams.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { PROGRAMS } from "@/lib/data";
+import TeamCard from "./TeamCard";
+
+export default function Teams() {
+  return (
+    <section id="programs" className="relative bg-navy-950 py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-14 max-w-lg"
+        >
+          <h2 className="text-balance font-display text-4xl font-extrabold tracking-tight text-bone lg:text-5xl">
+            A pathway for every age.
+          </h2>
+          <p className="mt-4 text-[16px] leading-relaxed text-mist">
+            From first touch to representative selection, each program builds
+            directly on the one before it.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-5 lg:grid-cols-2">
+          {PROGRAMS.map((program, i) => (
+            <TeamCard key={program.name} program={program} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+===== app\components\Teams\TeamCard.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import type { Program } from "@/lib/data";
+
+export default function TeamCard({ program, index }: { program: Program; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      className="group flex items-start justify-between gap-6 rounded-2xl border border-white/8 bg-navy-900/50 p-7 transition-colors duration-300 hover:bg-navy-900"
+    >
+      <div>
+        <span className="text-[12px] font-semibold uppercase tracking-wide text-blue-soft">
+          {program.ageRange}
+        </span>
+        <h3 className="mt-2 font-display text-xl font-bold text-bone">{program.name}</h3>
+        <p className="mt-3 max-w-sm text-[14px] leading-relaxed text-mist">{program.focus}</p>
+        <p className="mt-4 text-[13px] text-mist/70">{program.schedule}</p>
+      </div>
+      <ArrowUpRight
+        size={20}
+        className="mt-1 shrink-0 text-mist transition-all duration-300 ease-silk group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-crimson-bright"
+      />
+    </motion.div>
+  );
+}
+
+===== app\components\News\News.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { TESTIMONIALS } from "@/lib/data";
+import StoryCard from "./StoryCard";
+
+export default function News() {
+  return (
+    <section id="stories" className="relative bg-ink py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-14 max-w-lg"
+        >
+          <h2 className="text-balance font-display text-4xl font-extrabold tracking-tight text-bone lg:text-5xl">
+            Stories from the sideline.
+          </h2>
+        </motion.div>
+
+        <div className="grid gap-5 lg:grid-cols-3">
+          {TESTIMONIALS.map((t, i) => (
+            <StoryCard key={t.name} story={t} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+===== app\components\News\StoryCard.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { Quote } from "lucide-react";
+import type { Testimonial } from "@/lib/data";
+
+export default function StoryCard({ story, index }: { story: Testimonial; index: number }) {
+  return (
+    <motion.figure
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      className="flex flex-col justify-between rounded-2xl border border-white/8 bg-navy-900/50 p-7 shadow-card"
+    >
+      <div>
+        <Quote size={22} className="text-crimson-bright" />
+        <blockquote className="mt-4 text-balance text-[15px] leading-relaxed text-bone">
+          {story.quote}
+        </blockquote>
+      </div>
+      <figcaption className="mt-6 border-t border-white/8 pt-4">
+        <div className="text-[14px] font-semibold text-bone">{story.name}</div>
+        <div className="text-[13px] text-mist">{story.relation}</div>
+      </figcaption>
+    </motion.figure>
+  );
+}
+
+===== app\components\Sponsors\Sponsors.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { SPONSORS } from "@/lib/data";
+
+export default function Sponsors() {
+  return (
+    <section className="relative bg-navy-950 py-16">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <p className="mb-8 text-center text-[12px] font-medium uppercase tracking-[0.2em] text-mist/60">
+          Supported by
+        </p>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-wrap items-center justify-center gap-x-10 gap-y-5"
+        >
+          {SPONSORS.map((name) => (
+            <span
+              key={name}
+              className="font-display text-[15px] font-semibold text-mist/50 transition-colors duration-300 hover:text-mist"
+            >
+              {name}
+            </span>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+===== app\components\Membership\Membership.tsx =====
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
+import { PROGRAMS } from "@/lib/data";
+
+export default function Membership() {
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSubmitted(true);
+  }
+
+  return (
+    <section id="join" className="relative bg-hope-gradient py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h2 className="text-balance font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-bone lg:text-5xl">
+              Your first trial is free.
+            </h2>
+            <p className="mt-5 max-w-md text-[16px] leading-relaxed text-mist">
+              Come run a session with us before committing to anything.
+              We&rsquo;ll place your child in the right age group and send
+              you everything you need to know beforehand.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="rounded-2xl border border-white/10 bg-navy-950/70 p-7 shadow-card backdrop-blur-sm lg:p-9"
+          >
+            {submitted ? (
+              <div className="flex flex-col items-center justify-center gap-3 py-10 text-center">
+                <CheckCircle2 size={40} className="text-blue-soft" />
+                <p className="font-display text-lg font-bold text-bone">You&rsquo;re on the list.</p>
+                <p className="text-[14px] text-mist">
+                  We&rsquo;ll email trial times within one business day.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="grid gap-5">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <label className="flex flex-col gap-2 text-[13px] font-medium text-mist">
+                    Player name
+                    <input
+                      required
+                      type="text"
+                      className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[14px] text-bone outline-none transition-colors focus:border-blue-accent"
+                    />
+                  </label>
+                  <label className="flex flex-col gap-2 text-[13px] font-medium text-mist">
+                    Parent/guardian name
+                    <input
+                      required
+                      type="text"
+                      className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[14px] text-bone outline-none transition-colors focus:border-blue-accent"
+                    />
+                  </label>
+                </div>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <label className="flex flex-col gap-2 text-[13px] font-medium text-mist">
+                    Email
+                    <input
+                      required
+                      type="email"
+                      className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[14px] text-bone outline-none transition-colors focus:border-blue-accent"
+                    />
+                  </label>
+                  <label className="flex flex-col gap-2 text-[13px] font-medium text-mist">
+                    Program
+                    <select className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[14px] text-bone outline-none transition-colors focus:border-blue-accent">
+                      {PROGRAMS.map((p) => (
+                        <option key={p.name} value={p.name} className="bg-navy-900">
+                          {p.name} ({p.ageRange})
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+                <button
+                  type="submit"
+                  className="mt-2 rounded-full bg-crimson px-7 py-3.5 text-[15px] font-semibold text-white shadow-crimson transition-transform duration-300 ease-silk hover:scale-[1.01] active:scale-[0.98]"
+                >
+                  Reserve My Trial Spot
+                </button>
+              </form>
+            )}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+===== app\components\Contact\Contact.tsx =====
+"use client";
+
+import { motion } from "framer-motion";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+
+const DETAILS = [
+  { icon: MapPin, label: "Location", value: "412 Riverside Fields Rd, your city" },
+  { icon: Phone, label: "Phone", value: "(555) 019-2847" },
+  { icon: Mail, label: "Email", value: "hello@hoperugbyacademy.com" },
+  { icon: Clock, label: "Office hours", value: "Mon–Fri, 9am–5pm" },
+];
+
+export default function Contact() {
+  return (
+    <section id="contact" className="relative bg-ink py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-14 max-w-lg"
+        >
+          <h2 className="text-balance font-display text-4xl font-extrabold tracking-tight text-bone lg:text-5xl">
+            Questions before you sign up?
+          </h2>
+          <p className="mt-4 text-[16px] leading-relaxed text-mist">
+            Reach out directly — a real coach answers, not a call center.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {DETAILS.map((d, i) => {
+            const Icon = d.icon;
+            return (
+              <motion.div
+                key={d.label}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                className="rounded-2xl border border-white/8 bg-navy-900/50 p-6"
+              >
+                <Icon size={20} className="text-blue-soft" />
+                <p className="mt-4 text-[12px] font-medium uppercase tracking-wide text-mist/70">
+                  {d.label}
+                </p>
+                <p className="mt-1 text-[15px] font-medium text-bone">{d.value}</p>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
