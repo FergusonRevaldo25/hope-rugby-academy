@@ -1,10 +1,22 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://hoperugbyacademy.co.za";
 
 const ROUTES = [
-  "", "/about", "/coaches", "/players", "/training", "/events", "/gallery",
-  "/sponsors", "/faq", "/join", "/donate", "/contact", "/privacy",
+  "",
+  "/about",
+  "/coaches",
+  "/players",
+  "/training",
+  "/events",
+  "/gallery",
+  "/sponsors",
+  "/faq",
+  "/join",
+  "/donate",
+  "/contact",
+  "/privacy",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
